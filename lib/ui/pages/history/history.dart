@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 
-class OrderPage extends StatelessWidget {
-  const OrderPage({super.key});
+class HistoryPage extends StatelessWidget {
+  const HistoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.yellow,
+      color: Colors.green,
       child: Column(
-        children: [
-          Text('ЗАКАЗ'),
-        ],
+        children: [Text('ИСТОРИЯ')],
       ),
     );
   }
