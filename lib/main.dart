@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pos_order/ui/pages/tables/tables.dart';
 import 'package:pos_order/utils/router.dart';
 
 void main() {

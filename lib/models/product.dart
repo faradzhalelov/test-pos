@@ -8,15 +8,11 @@ class ProductModel {
   final String? name;
   final Category category;
   final double price;
-  final int quantity;
-  final String? image;
   ProductModel({
     required this.id,
     this.name,
     required this.category,
     required this.price,
-    required this.quantity,
-    this.image,
   });
 
   ProductModel copyWith({
@@ -24,16 +20,22 @@ class ProductModel {
     String? name,
     Category? category,
     double? price,
-    int? quantity,
-    String? image,
   }) {
     return ProductModel(
       id: id ?? this.id,
       name: name ?? this.name,
       category: category ?? this.category,
       price: price ?? this.price,
-      quantity: quantity ?? this.quantity,
-      image: image ?? this.image,
+    );
+  }
+
+  factory ProductModel.fromDB(Map<String, dynamic> map) {
+    return ProductModel(
+      id: map['id'] ?? -1,
+      name: map['name'] ?? '',
+      category: Category.values
+          .firstWhere((element) => element.categoryName == map['category']),
+      price: map['price'],
     );
   }
 
@@ -43,8 +45,6 @@ class ProductModel {
       'name': name,
       'category': category.categoryName,
       'price': price,
-      'quantity': quantity,
-      'image': image,
     };
   }
 
@@ -55,8 +55,6 @@ class ProductModel {
       category: Category.values.firstWhere(
           (element) => element.categoryName == map['category'] as String),
       price: map['price'] as double,
-      quantity: map['quantity'] as int,
-      image: map['image'] != null ? map['image'] as String : null,
     );
   }
 
@@ -67,7 +65,7 @@ class ProductModel {
 
   @override
   String toString() {
-    return 'Product(id: $id, name: $name, category: $category, price: $price, quantity: $quantity, image: $image)';
+    return 'Product(id: $id, name: $name, category: $category, price: $price)';
   }
 
   @override
@@ -77,18 +75,11 @@ class ProductModel {
     return other.id == id &&
         other.name == name &&
         other.category == category &&
-        other.price == price &&
-        other.quantity == quantity &&
-        other.image == image;
+        other.price == price;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^
-        name.hashCode ^
-        category.hashCode ^
-        price.hashCode ^
-        quantity.hashCode ^
-        image.hashCode;
+    return id.hashCode ^ name.hashCode ^ category.hashCode ^ price.hashCode;
   }
 }

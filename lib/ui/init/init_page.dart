@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pos_order/db/db_helper.dart';
+import 'package:pos_order/db/db_mixin.dart';
 
 class InitPage extends StatefulWidget {
   const InitPage({super.key});
@@ -17,7 +17,7 @@ class _InitPageState extends State<InitPage> {
   }
 
   initDb() async {
-    await DatabaseHelper.database;
+    await DBMixin.initDB();
     if (context.mounted) {
       Future.delayed(
           const Duration(milliseconds: 300), () => context.go('/tables'));

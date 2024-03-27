@@ -33,6 +33,13 @@ class TableModel {
     );
   }
 
+  factory TableModel.fromDB(Map<String, dynamic> map) {
+    return TableModel(
+      id: map['id'] ?? -1,
+      name: map['name'] ?? '',
+    );
+  }
+
   String toJson() => json.encode(toMap());
 
   factory TableModel.fromJson(String source) =>

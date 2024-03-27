@@ -3,11 +3,11 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pos_order/ui/pages/history/history.dart';
-import 'package:pos_order/ui/pages/init_page.dart';
+import 'package:pos_order/ui/init/init_page.dart';
 import 'package:pos_order/ui/pages/order/order.dart';
-import 'package:pos_order/ui/pages/tables/details.dart';
 import 'package:pos_order/ui/pages/tables/tables.dart';
 import 'package:pos_order/ui/pages/scaffold_base.dart';
+import 'package:pos_order/ui/pages/tables/table_details.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _sectionNavigatorKey = GlobalKey<NavigatorState>();
@@ -22,6 +22,10 @@ class AppRouter {
         path: '/',
         builder: (context, state) => const InitPage(),
       ),
+      GoRoute(
+        path: '/history',
+        builder: (context, state) => const HistoryPage(),
+      ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return ScaffoldBase(navigationShell);
@@ -35,27 +39,23 @@ class AppRouter {
                 builder: (context, state) => const TablesPage(),
                 routes: <RouteBase>[
                   GoRoute(
-                    path: 'details',
+                    path: ':id',
                     builder: (context, state) {
-                      return const DetailsPage();
+                      final Map<String, dynamic> pathParams =
+                          state.pathParameters;
+
+                      final int id = int.tryParse(pathParams['id']) ?? 0;
+
+                      log('PATH: $pathParams');
+                      return TableDetails(
+                        id: id,
+                      );
                     },
                   )
                 ],
               ),
             ],
           ),
-          StatefulShellBranch(routes: <RouteBase>[
-            GoRoute(
-              path: '/order',
-              builder: (context, state) => const OrderPage(),
-            ),
-          ]),
-          StatefulShellBranch(routes: <RouteBase>[
-            GoRoute(
-              path: '/history',
-              builder: (context, state) => const HistoryPage(),
-            ),
-          ])
         ],
       ),
     ],
