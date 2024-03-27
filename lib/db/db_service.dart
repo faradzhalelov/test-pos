@@ -34,7 +34,6 @@ class DatabaseService with DBMixin {
   }
 
   Future<Map<String, dynamic>> getOrderDetails(int orderId) async {
-    // Получаем информацию о заказе и столе
     final List<Map<String, dynamic>> orderData = await db.rawQuery('''
       SELECT orders.*, cafe_tables.name as table_name
       FROM orders
@@ -46,7 +45,6 @@ class DatabaseService with DBMixin {
       throw Exception('Order not found');
     }
 
-    // Получаем продукты, связанные с заказом
     final List<Map<String, dynamic>> productsData = await db.rawQuery('''
       SELECT products.*, order_products.quantity
       FROM order_products
@@ -54,7 +52,6 @@ class DatabaseService with DBMixin {
       WHERE order_products.order_id = ?;
     ''', [orderId]);
 
-    // Собираем и возвращаем детализированные данные о заказе
     return {
       'orderDetails': orderData.first,
       'products': productsData,
@@ -91,31 +88,5 @@ class DatabaseService with DBMixin {
   Future<List<Map<String, dynamic>>> getProducts() async {
     final List<Map<String, dynamic>> table = await db.query('products');
     return table;
-  }
-
-  Future getOrderHistory() async {}
-
-  Future<List<Map<String, dynamic>>> getOrdersByTableId(int tableId) async {
-    final List<Map<String, dynamic>> orders = await db.rawQuery('''
-    SELECT 
-      orders.id AS order_id,
-      orders.created_at,
-      orders.status,
-      order_products.product_id,
-      order_products.quantity,
-      products.name AS product_name,
-      products.price AS product_price
-    FROM 
-      orders
-    JOIN 
-      order_products ON orders.id = order_products.order_id
-    JOIN 
-      products ON order_products.product_id = products.id
-    WHERE 
-      orders.cafe_table_id = ?
-    ORDER BY 
-      orders.created_at DESC;
-  ''', [tableId]);
-    return orders;
   }
 }

@@ -23,7 +23,7 @@ class _TablesPageState extends State<TablesPage> {
   }
 
   initTablesFromDb() async {
-    await DatabaseHelper.instanse.addData();
+    //await DatabaseHelper.instanse.addData();
     final data = await DatabaseService().getTables();
     tables = data.map((m) => TableModel.fromDB(m)).toList();
     setState(() {});
