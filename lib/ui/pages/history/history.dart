@@ -72,11 +72,13 @@ class _HistoryPageState extends State<HistoryPage> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              const Text('ИСТОРИЯ'),
-              ...orders.map((e) => HistoryOrder(orderModel: e))
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const Text('ИСТОРИЯ'),
+                ...orders.map((e) => HistoryOrder(orderModel: e))
+              ],
+            ),
           ),
         ),
       ),
