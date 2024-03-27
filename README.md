@@ -1,16 +1,13 @@
 # pos_order
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+ТЕСТОВОЕ ЗАДАНИЕ
+Сделать приложение с SQLite базой внутри приложения, с работой в офлайн режиме.
+Наполнить можно БД вручную
+Группа товаров 1
+Товар 1.1
+Товар 1.2
+Группа товаров 2
+Товар 2.1
+Товар 2.2
+Товар 2.3
+И т.д.
+Возможность набирать заказы, сохранять и отобразить список сохраненных заказов.
