@@ -8,7 +8,7 @@ import 'product.dart';
 class OrderModel {
   final int id;
   final int tablesId;
-  final List<ProductModel> products;
+  final Map<ProductModel, int> products;
   final DateTime createdAt;
   OrderModel({
     required this.id,
@@ -20,7 +20,7 @@ class OrderModel {
   OrderModel copyWith({
     int? id,
     int? tablesId,
-    List<ProductModel>? products,
+    Map<ProductModel, int>? products,
     DateTime? createdAt,
   }) {
     return OrderModel(
@@ -35,7 +35,7 @@ class OrderModel {
     return <String, dynamic>{
       'id': id,
       'tablesId': tablesId,
-      'products': products.map((x) => x.toMap()).toList(),
+      'products': products,
       'createdAt': createdAt.millisecondsSinceEpoch,
     };
   }
@@ -44,11 +44,8 @@ class OrderModel {
     return OrderModel(
       id: map['id'] as int,
       tablesId: map['tablesId'] as int,
-      products: List<ProductModel>.from(
-        (map['products'] as List<int>).map<ProductModel>(
-          (x) => ProductModel.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
+      products: Map<ProductModel, int>.from(
+          (map['products'] as Map<ProductModel, int>)),
       createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
     );
   }
@@ -60,7 +57,7 @@ class OrderModel {
 
   @override
   String toString() {
-    return 'Order(id: $id, tablesId: $tablesId, products: $products, createdAt: $createdAt)';
+    return 'OrderModel(id: $id, tablesId: $tablesId, products: $products, createdAt: $createdAt)';
   }
 
   @override
@@ -69,7 +66,7 @@ class OrderModel {
 
     return other.id == id &&
         other.tablesId == tablesId &&
-        listEquals(other.products, products) &&
+        mapEquals(other.products, products) &&
         other.createdAt == createdAt;
   }
 

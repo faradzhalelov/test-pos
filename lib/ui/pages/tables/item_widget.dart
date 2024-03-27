@@ -17,19 +17,20 @@ class ItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text('$category: $name - $price руб.'),
-        IconButton(
-            onPressed: () => onTapPlus?.call(), icon: const Icon(Icons.add)),
-        if (onTapMinus != null) ...[
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        children: [
+          Text('$category: $name - $price руб.'),
           IconButton(
-              onPressed: () => onTapMinus?.call(),
-              icon: const Icon(Icons.remove))
-        ]
-      ],
+              onPressed: () => onTapPlus?.call(), icon: const Icon(Icons.add)),
+          if (onTapMinus != null) ...[
+            IconButton(
+                onPressed: () => onTapMinus?.call(),
+                icon: const Icon(Icons.remove))
+          ]
+        ],
+      ),
     );
   }
 }

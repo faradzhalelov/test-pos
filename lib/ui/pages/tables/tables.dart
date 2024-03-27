@@ -35,7 +35,7 @@ class _TablesPageState extends State<TablesPage> {
         color: Colors.white,
         child: Column(
           children: [
-            const Text('СТОЛЫ'),
+            const Text('СТОЛЫ:'),
             Expanded(
               child: ListView.builder(
                   itemCount: tables.length,
@@ -44,11 +44,23 @@ class _TablesPageState extends State<TablesPage> {
                     final tableName = tableData.name;
                     final tableId = tableData.id;
                     final text = tableName ?? 'TABLE $tableId';
-                    return TextButton(
-                        onPressed: () {
-                          context.go('/tables/$tableId');
-                        },
-                        child: Text(text));
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        children: [
+                          Image.network(
+                            'https://img.freepik.com/premium-psd/scene-creator-top-view-table-and-chairs-transparent-background_92267-916.jpg',
+                            width: 50,
+                            height: 50,
+                          ),
+                          TextButton(
+                              onPressed: () {
+                                context.go('/tables/$tableId');
+                              },
+                              child: Text(text)),
+                        ],
+                      ),
+                    );
                   }),
             )
           ],

@@ -42,7 +42,7 @@ class ProductModel {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
-      'name': name,
+      'name': name ?? '',
       'category': category.categoryName,
       'price': price,
     };

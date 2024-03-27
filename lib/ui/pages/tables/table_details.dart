@@ -1,7 +1,5 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pos_order/db/db_service.dart';
 import 'package:pos_order/models/product.dart';
@@ -57,10 +55,15 @@ class _TableDetailsState extends State<TableDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.blue,
+    return SizedBox(
       child: Column(
         children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: IconButton(
+                onPressed: () => context.go('/tables'),
+                icon: const Icon(Icons.arrow_back)),
+          ),
           Text('CТОЛ $id'),
           const Text('ТОВАРЫ'),
           Expanded(
@@ -93,47 +96,59 @@ class _TableDetailsState extends State<TableDetails> {
           order.isEmpty
               ? const SizedBox.shrink()
               : Flexible(
-                  child: Container(
-                    color: Colors.yellow,
-                    child: ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: order.length,
-                        itemBuilder: (context, index) {
-                          final orderMap = order.entries.elementAt(index);
-                          final count = orderMap.value;
-                          final orderData = orderMap.key;
-                          final productId = orderData.id;
-                          final category = orderData.category.name;
-                          final name = orderData.name ?? 'Unknown $productId';
-                          final price = orderData.price;
-                          return Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ItemWidget(
-                                category: category,
-                                name: name,
-                                price: price,
-                                onTapPlus: () {
-                                  addOrder(orderData);
-                                  setState(() {});
-                                },
-                                onTapMinus: () {
-                                  deleteOrder(orderData);
-                                  setState(() {});
-                                },
-                              ),
-                              Text('КОЛВО: $count')
-                            ],
-                          );
-                        }),
+                  child: Column(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Text('ТЕКУЩИЙ ЗАКАЗ:'),
+                      ),
+                      Flexible(
+                        child: Container(
+                          color: Colors.blue,
+                          child: ListView.builder(
+                              itemCount: order.length,
+                              itemBuilder: (context, index) {
+                                final orderMap = order.entries.elementAt(index);
+                                final count = orderMap.value;
+                                final orderData = orderMap.key;
+                                final productId = orderData.id;
+                                final category = orderData.category.name;
+                                final name =
+                                    orderData.name ?? 'Unknown $productId';
+                                final price = orderData.price;
+                                return Row(
+                                  children: [
+                                    ItemWidget(
+                                      category: category,
+                                      name: name,
+                                      price: price,
+                                      onTapPlus: () {
+                                        addOrder(orderData);
+                                        setState(() {});
+                                      },
+                                      onTapMinus: () {
+                                        deleteOrder(orderData);
+                                        setState(() {});
+                                      },
+                                    ),
+                                    Expanded(child: Text('КОЛВО: $count'))
+                                  ],
+                                );
+                              }),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
           TextButton(
-              onPressed: () {
+              onPressed: () async {
+                await DatabaseService()
+                    .addOrder(cafeTableId: id, products: order);
                 order.clear();
                 setState(() {});
-                context.go('/history');
+                if (context.mounted) {
+                  context.go('/history');
+                }
               },
               child: const Text('СОХРАНИТЬ'))
         ],
